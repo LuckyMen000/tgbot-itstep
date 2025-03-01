@@ -6,6 +6,7 @@ from aiogram.types import (
 )
 from aiogram.filters import Command
 from aiogram.client.default import DefaultBotProperties
+from weather import get_weather
 from api import TOKEN
 
 # Создаем объект - бот и диспетчер
@@ -56,6 +57,11 @@ async def help_command(message: types.Message):
         "/random - Случайное число" 
     )
     await message.answer(command_text)
+
+@dp.message (Command("weather"))
+async def weather_command(message : types.Message):
+    weather_info = await get_weather()
+    await message.reply(weather_info)
 
 @dp.message(lambda message: message.text == "Привет!")
 async def hello(message: types.Message):
